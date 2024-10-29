@@ -7,10 +7,10 @@
 #ffmpeg -i Harlem_Shake_.mp4 -i background_hacienda.mp4 \
 #-filter_complex '[1:v]scale=320:240,loop=0,setpts=N/FRAME_RATE/TB[ovrl],[0:v][ovrl]overlay[out]' \
 ffmpeg -i rtsp://minibun:aquarium@192.168.100.182/stream1 \
--filter_complex "movie=rn_image_picker_lib_temp_9022ea4a-4ad6-4ca6-ae00-cf9b4ace9755.mp4:loop=0,setpts=N/FRAME_RATE/TB,hue=s=0[bg];[0:v]scale=iw/2:-1,pad=iw+20:ih+20:10:10:color=yellow[m]; [bg][m]overlay=shortest=1:x=(W-w):y=0[out]" \
+-filter_complex "movie=background_hacienda.mp4:loop=0,setpts=N/FRAME_RATE/TB[bg];[0:v]scale=iw/2:-1,pad=iw+20:ih+20:10:10:color=yellow[m]; [bg][m]overlay=shortest=1:x=(W-w):y=0[out]" \
 -map '[out]' \
--f rtp \
--sdp_file video.sdp \
-rtp://127.0.0.1:5004
+-vcodec libx264 -b:v 4500k -maxrate 4500k -bufsize 9000k -preset veryfast -g 60 -keyint_min 60 \
+-f flv \
+rtmp://live.twitch.tv/app/live_95257154_rlyEivMqQiD28obtOqEIUxqJuQThiV
 
 # to test, open video.sdp file with vlp while ffmpeg is running
