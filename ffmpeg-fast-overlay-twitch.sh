@@ -6,12 +6,12 @@
 # scale=size=480,
 #ffmpeg -i Harlem_Shake_.mp4 -i background_hacienda.mp4 \
 #-filter_complex '[1:v]scale=320:240,loop=0,setpts=N/FRAME_RATE/TB[ovrl],[0:v][ovrl]overlay[out]' \
-ffmpeg -i rtsp://minibun:aquarium@192.168.100.182/stream1 \
+ffmpeg -rtsp_transport tcp -i rtsp://minibun:aquarium@192.168.100.182/stream1 \
 -filter_complex "movie=background_hacienda_slow.mp4:loop=0,setpts=N/FRAME_RATE/TB[bg];[0:v]scale=iw/2:-1,pad=iw+20:ih+20:10:10:color=yellow[m]; [bg][m]overlay=shortest=1:x=(W-w):y=0[out]" \
 -map '[out]' \
 -vcodec libx264 -r 12 -ar 22050 -b:v 2500k -maxrate 2500k -bufsize 5000k -preset veryfast -g 24 -keyint_min 60 \
 -f flv \
-rtmp://live.twitch.tv/app/live_95257154_rlyEivMqQiD28obtOqEIUxqJuQThiV
+rtmp://live.twitch.tv/app/$TWITCH_STREAM_KEY
 
 # to test, open video.sdp file with vlp while ffmpeg is running
 
