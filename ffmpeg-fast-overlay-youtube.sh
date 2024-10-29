@@ -11,7 +11,7 @@ ffmpeg -i rtsp://minibun:aquarium@192.168.100.182/stream1 \
 -map '[out]' \
 -vcodec libx264 -r 12 -ar 22050 -b:v 2500k -maxrate 2500k -bufsize 5000k -preset veryfast -g 24 -keyint_min 60 \
 -f flv \
-rtmp://live.twitch.tv/app/live_95257154_rlyEivMqQiD28obtOqEIUxqJuQThiV
+rtmp://a.rtmp.youtube.com/live2/live_95257154_rlyEivMqQiD28obtOqEIUxqJuQThiV
 
 # to test, open video.sdp file with vlp while ffmpeg is running
 
