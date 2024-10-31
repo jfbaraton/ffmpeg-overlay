@@ -29,7 +29,7 @@ ffmpeg \
     -map '[out]' \
     -vcodec libx264 -pix_fmt yuv420p -preset $QUAL -r $FPS -g $(($FPS * 2)) -b:v $VBR \
     -acodec libmp3lame -ar 44100 -threads 6 -q:a 3 -b:a 712000 -bufsize 512k \
-    -f flv "$YOUTUBE_URL/$YOUTUBE_STREAM_KEY"
+    out5.mp4
 
 # to test, open video.sdp file with vlp while ffmpeg is running
 
