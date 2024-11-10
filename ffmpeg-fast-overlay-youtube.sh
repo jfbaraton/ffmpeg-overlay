@@ -6,12 +6,14 @@
 # scale=size=480,
 #ffmpeg -i Harlem_Shake_.mp4 -i background_hacienda.mp4 \
 #-filter_complex '[1:v]scale=320:240,loop=0,setpts=N/FRAME_RATE/TB[ovrl],[0:v][ovrl]overlay[out]' \
-ffmpeg -i rtsp://minibun:aquarium@192.168.100.182/stream1 \
--filter_complex "movie=background_hacienda_slow.mp4:loop=0,setpts=N/FRAME_RATE/TB[bg];[0:v]scale=iw/2:-1,pad=iw+20:ih+20:10:10:color=yellow[m]; [bg][m]overlay=shortest=1:x=(W-w):y=0[out]" \
--map '[out]' \
--vcodec libx264 -r 12 -ar 22050 -b:v 2500k -maxrate 2500k -bufsize 5000k -preset veryfast -g 24 -keyint_min 60 \
--f flv \
-rtmp://a.rtmp.youtube.com/live2/$YOUTUBE_STREAM_KEY
+ffmpeg -i background_hacienda.mp4 \
+-rtbufsize 32M -i rtsp://minibun:aquarium@192.168.100.182/stream1 \
+-filter_complex "[1:v]scale=iw/2:-1,pad=iw+20:ih+20:10:10:color=yellow[a]; [0:v][a]overlay=shortest=1:x=(W-w):y=0[video]; anullsrc=cl=mono:r=44100[audio]" \
+-map "[video]" -map "[audio]" \
+-c:v libx264 -pix_fmt yuv420p -tune zerolatency -crf 28 -x264-params keyint=20:scenecut=0 \
+-movflags +faststart \
+-flvflags no_duration_filesize \
+-f flv "rtmp://a.rtmp.youtube.com/live2/"$YOUTUBE_STREAM_KEY
 
 # to test, open video.sdp file with vlp while ffmpeg is running
 
